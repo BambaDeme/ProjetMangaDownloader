@@ -5,7 +5,7 @@ import sys
 
 # compteur d'images
 count = 0
-
+# fonction pour connaitre le nombre de page d'un chapitre chapitre
 def nbrePageChapter(manga,chapter):
 	chapter = str(chapter)
 	web = 'https://www.mangapanda.com/'+manga+'/'+chapter
@@ -18,6 +18,7 @@ def nbrePageChapter(manga,chapter):
 	del number[0]
 	number.insert(0,'1')
 	return number;
+# Fonction pour télécharger une page donné sur un chapitre donné d'un titre de manga donné
 def telecharger(manga,chapter,i):	
 	manga = str(manga)
 	chapter = str(chapter)
@@ -51,6 +52,35 @@ def telecharger(manga,chapter,i):
 				f.write(r2.content)
 		except:
 			continue
+# recupération des arguments d'appel du programme
+if len(sys.argv)>1:
+	if ',' in sys.argv[2]:
+		chapters = sys.argv[2].split(',')
+		for chapter in chapters:
+			pages = nbrePageChapter(sys.argv[1],chapter)
+			i = 0
+			while i < len(pages):
+				telecharger(sys.argv[1],chapter,i+1)
+				i=i+1
+	elif '-' in sys.argv[2]:
+		chapter_debut = int(sys.argv[2].split('-')[0])
+		chapter_fin = int(sys.argv[2].split('-')[1])
+		
+		chapters = range(chapter_debut,chapter_fin+1)
+		for chapter in chapters :
+			pages = nbrePageChapter(sys.argv[1],chapter)
+			i = 0
+			while i < len(pages):
+				telecharger(sys.argv[1],chapter,i+1)
+				i=i+1
+	else:
+		manga = sys.argv[1]
+		chapter = sys.argv[2]
+		pages = nbrePageChapter(manga,chapter)
+		i=0
+		while i < len(pages):
+			telecharger(manga,chapter,i+1)
+			i=i+1
 print("--------")
 print("--------")
 print("Total images downloaded:", count)
