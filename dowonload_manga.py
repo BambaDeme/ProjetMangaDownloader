@@ -81,6 +81,12 @@ if len(sys.argv)>1:
 		while i < len(pages):
 			telecharger(manga,chapter,i+1)
 			i=i+1
+# si le programme est applé sans argument on demande a l'utilisateur de les saisir au clavier	
+else:
+	manga = input("Entrez le nom du manga: ")
+	chapter = input("entrez le numero du chapitre: ")
+	telecharger(manga,chapter)
+
 print("--------")
 print("--------")
 print("Total images downloaded:", count)
